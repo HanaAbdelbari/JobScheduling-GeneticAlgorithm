@@ -1,8 +1,12 @@
+package GeneticAlgorithmLibrary;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Population class that manages a collection of chromosomes
+ * GeneticAlgorithmLibrary.Population class that manages a collection of chromosomes
  */
 public class Population {
     private List<Chromosome> individuals;
@@ -132,7 +136,7 @@ public class Population {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Population (Size: ").append(individuals.size()).append("):\n");
+        sb.append("GeneticAlgorithmLibrary.Population (Size: ").append(individuals.size()).append("):\n");
         for (int i = 0; i < individuals.size(); i++) {
             sb.append("  ").append(i + 1).append(": ").append(individuals.get(i).toString())
               .append(" (Fitness: ").append(String.format("%.4f", individuals.get(i).getFitness())).append(")\n");

@@ -1,3 +1,11 @@
+package GeneticAlgorithmLibrary;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+import GeneticAlgorithmLibrary.Crossover.CrossoverMethod;
+import GeneticAlgorithmLibrary.Mutation.MutationMethod;
+import GeneticAlgorithmLibrary.Replacement.ReplacementStrategy;
+import GeneticAlgorithmLibrary.Selection.SelectionMethod;
+
 import java.util.List;
 
 /**
@@ -21,14 +29,14 @@ public class GeneticAlgorithm {
     private FitnessFunction fitnessFunction;
     private InfeasibilityHandler infeasibilityHandler;
     
-    // Chromosome prototype for initialization
+    // GeneticAlgorithmLibrary.Chromosome.GeneticAlgorithmLibrary.Chromosome prototype for initialization
     private Chromosome chromosomePrototype;
     
     // Current population
     private Population population;
     
     /**
-     * Constructor for GeneticAlgorithm
+     * Constructor for GeneticAlgorithmLibrary.GeneticAlgorithm
      * @param populationSize size of the population
      * @param generations number of generations to run
      * @param crossoverRate probability of crossover
@@ -138,13 +146,13 @@ public class GeneticAlgorithm {
         
         // Main GA loop
         for (int gen = 0; gen < generations; gen++) {
-            // Selection: Choose parents
+            // GeneticAlgorithmLibrary.Selection: Choose parents
             List<Chromosome> parents = selectionMethod.select(population);
             
-            // Crossover: Generate offspring
+            // GeneticAlgorithmLibrary.Crossover: Generate offspring
             List<Chromosome> offspring = crossoverMethod.crossover(parents, crossoverRate);
             
-            // Mutation: Apply mutations
+            // GeneticAlgorithmLibrary.Mutation: Apply mutations
             mutationMethod.mutate(offspring, mutationRate);
             
             // Handle infeasible solutions
@@ -156,7 +164,7 @@ public class GeneticAlgorithm {
                 }
             }
             
-            // Replacement: Update population
+            // GeneticAlgorithmLibrary.Replacement: Update population
             population = replacementStrategy.replace(population, offspring);
             
             // Evaluation: Calculate fitness for new population

@@ -1,3 +1,7 @@
+package GeneticAlgorithmLibrary.Mutation;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+
 import java.util.List;
 
 /**

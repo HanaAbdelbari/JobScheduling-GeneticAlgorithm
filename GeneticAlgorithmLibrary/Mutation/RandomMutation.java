@@ -1,3 +1,10 @@
+package GeneticAlgorithmLibrary.Mutation;
+
+import GeneticAlgorithmLibrary.Chromosome.BinaryChromosome;
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+import GeneticAlgorithmLibrary.Chromosome.FloatChromosome;
+import GeneticAlgorithmLibrary.Chromosome.IntegerChromosome;
+
 import java.util.List;
 
 /**

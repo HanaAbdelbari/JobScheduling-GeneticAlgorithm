@@ -1,29 +1,25 @@
+package GeneticAlgorithmLibrary.Chromosome;
+
 /**
- * Integer chromosome implementation where each gene is an integer within a specified range
+ * Binary chromosome implementation where each gene is 0 or 1
  */
-public class IntegerChromosome implements Chromosome {
+public class BinaryChromosome implements Chromosome {
     private int[] genes;
     private double fitness;
-    private int minValue;
-    private int maxValue;
     
     /**
-     * Constructor for integer chromosome
+     * Constructor for binary chromosome
      * @param length the number of genes in the chromosome
-     * @param minValue minimum value for each gene
-     * @param maxValue maximum value for each gene
      */
-    public IntegerChromosome(int length, int minValue, int maxValue) {
+    public BinaryChromosome(int length) {
         this.genes = new int[length];
         this.fitness = 0.0;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
     }
     
     @Override
     public void randomInitialize() {
         for (int i = 0; i < genes.length; i++) {
-            genes[i] = minValue + (int)(Math.random() * (maxValue - minValue + 1));
+            genes[i] = Math.random() < 0.5 ? 0 : 1;
         }
     }
     
@@ -44,7 +40,7 @@ public class IntegerChromosome implements Chromosome {
     
     @Override
     public Chromosome copy() {
-        IntegerChromosome copy = new IntegerChromosome(genes.length, minValue, maxValue);
+        BinaryChromosome copy = new BinaryChromosome(genes.length);
         System.arraycopy(genes, 0, copy.genes, 0, genes.length);
         copy.fitness = this.fitness;
         return copy;
@@ -53,7 +49,7 @@ public class IntegerChromosome implements Chromosome {
     /**
      * Get the gene at specific index
      * @param index the gene index
-     * @return gene value
+     * @return gene value (0 or 1)
      */
     public int getGene(int index) {
         return genes[index];
@@ -62,26 +58,10 @@ public class IntegerChromosome implements Chromosome {
     /**
      * Set the gene at specific index
      * @param index the gene index
-     * @param value the gene value
+     * @param value the gene value (0 or 1)
      */
     public void setGene(int index, int value) {
         genes[index] = value;
-    }
-    
-    /**
-     * Get minimum value for genes
-     * @return minimum value
-     */
-    public int getMinValue() {
-        return minValue;
-    }
-    
-    /**
-     * Get maximum value for genes
-     * @return maximum value
-     */
-    public int getMaxValue() {
-        return maxValue;
     }
     
     @Override

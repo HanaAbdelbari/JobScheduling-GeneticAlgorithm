@@ -1,3 +1,7 @@
+package GeneticAlgorithmLibrary.Crossover;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+
 import java.util.ArrayList;
 import java.util.List;
 

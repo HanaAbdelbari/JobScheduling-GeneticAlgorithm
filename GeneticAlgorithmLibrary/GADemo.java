@@ -1,12 +1,23 @@
+package GeneticAlgorithmLibrary;
+
+import GeneticAlgorithmLibrary.Chromosome.BinaryChromosome;
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+import GeneticAlgorithmLibrary.Chromosome.FloatChromosome;
+import GeneticAlgorithmLibrary.Chromosome.IntegerChromosome;
+import GeneticAlgorithmLibrary.Crossover.SinglePointCrossover;
+import GeneticAlgorithmLibrary.Mutation.RandomMutation;
+import GeneticAlgorithmLibrary.Replacement.GenerationalReplacement;
+import GeneticAlgorithmLibrary.Selection.RandomSelection;
+
 /**
  * Demo class to test the GA Core Engine
- * This demonstrates the Overall Algorithm & Population Initialization functionality
+ * This demonstrates the Overall Algorithm & GeneticAlgorithmLibrary.Population Initialization functionality
  */
 public class GADemo {
     
     public static void main(String[] args) {
         System.out.println("=== GA Core Engine Demo ===");
-        System.out.println("Testing Overall Algorithm & Population Initialization\n");
+        System.out.println("Testing Overall Algorithm & GeneticAlgorithmLibrary.Population Initialization\n");
         
         // Test with Binary Chromosomes
         testBinaryChromosomes();

@@ -1,3 +1,5 @@
+package GeneticAlgorithmLibrary.Chromosome;
+
 /**
  * Floating-point chromosome implementation where each gene is a real number within a specified range
  */

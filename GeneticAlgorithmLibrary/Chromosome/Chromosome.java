@@ -1,3 +1,5 @@
+package GeneticAlgorithmLibrary.Chromosome;
+
 /**
  * Base interface for all chromosome types in the Genetic Algorithm library
  */

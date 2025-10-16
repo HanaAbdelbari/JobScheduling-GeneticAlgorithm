@@ -1,3 +1,7 @@
+package GeneticAlgorithmLibrary;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+
 /**
  * Interface for handling infeasible solutions in genetic algorithms
  */

@@ -1,31 +1,31 @@
-# GA Core Engine - Overall Algorithm & Population Initialization
+# GA Core Engine - Overall Algorithm & GeneticAlgorithmLibrary.Population Initialization
 
 This project implements the core engine for a Genetic Algorithm library, focusing on the overall algorithm structure and population initialization.
 
 ## 🎯 Features Implemented
 
 ### Core Classes
-- **Chromosome Interface**: Base interface for all chromosome types
-- **BinaryChromosome**: Chromosomes with binary genes (0 or 1)
-- **IntegerChromosome**: Chromosomes with integer genes within specified range
-- **FloatChromosome**: Chromosomes with floating-point genes within specified range
-- **Population**: Manages collections of chromosomes with utility methods
-- **GeneticAlgorithm**: Main GA engine with complete algorithm flow
+- **GeneticAlgorithmLibrary.Chromosome.GeneticAlgorithmLibrary.Chromosome Interface**: Base interface for all chromosome types
+- **GeneticAlgorithmLibrary.Chromosome.BinaryChromosome**: Chromosomes with binary genes (0 or 1)
+- **GeneticAlgorithmLibrary.Chromosome.IntegerChromosome**: Chromosomes with integer genes within specified range
+- **GeneticAlgorithmLibrary.Chromosome.FloatChromosome**: Chromosomes with floating-point genes within specified range
+- **GeneticAlgorithmLibrary.Population**: Manages collections of chromosomes with utility methods
+- **GeneticAlgorithmLibrary.GeneticAlgorithm**: Main GA engine with complete algorithm flow
 
 ### GA Components (Interfaces)
-- **FitnessFunction**: Interface for fitness evaluation
-- **SelectionMethod**: Interface for parent selection
-- **CrossoverMethod**: Interface for crossover operations
-- **MutationMethod**: Interface for mutation operations
-- **ReplacementStrategy**: Interface for population replacement
-- **InfeasibilityHandler**: Interface for handling infeasible solutions
+- **GeneticAlgorithmLibrary.FitnessFunction**: Interface for fitness evaluation
+- **GeneticAlgorithmLibrary.Selection.SelectionMethod**: Interface for parent selection
+- **GeneticAlgorithmLibrary.Crossover.CrossoverMethod**: Interface for crossover operations
+- **GeneticAlgorithmLibrary.Mutation.MutationMethod**: Interface for mutation operations
+- **GeneticAlgorithmLibrary.Replacement.ReplacementStrategy**: Interface for population replacement
+- **GeneticAlgorithmLibrary.InfeasibilityHandler**: Interface for handling infeasible solutions
 
 ### Sample Implementations
-- **SumFitnessFunction**: Maximizes sum of chromosome genes
-- **RandomSelection**: Random parent selection
-- **SinglePointCrossover**: Basic crossover implementation
-- **RandomMutation**: Random mutation for all chromosome types
-- **GenerationalReplacement**: Complete population replacement
+- **GeneticAlgorithmLibrary.SumFitnessFunction**: Maximizes sum of chromosome genes
+- **GeneticAlgorithmLibrary.Selection.RandomSelection**: Random parent selection
+- **GeneticAlgorithmLibrary.Crossover.SinglePointCrossover**: Basic crossover implementation
+- **GeneticAlgorithmLibrary.Mutation.RandomMutation**: Random mutation for all chromosome types
+- **GeneticAlgorithmLibrary.Replacement.GenerationalReplacement**: Complete population replacement
 
 ## 🚀 How to Run
 
@@ -39,13 +39,13 @@ This project implements the core engine for a Genetic Algorithm library, focusin
 javac *.java
 
 # Run the demo
-java GADemo
+java GeneticAlgorithmLibrary.GADemo
 ```
 
 ### Expected Output
 ```
 === GA Core Engine Demo ===
-Testing Overall Algorithm & Population Initialization
+Testing Overall Algorithm & GeneticAlgorithmLibrary.Population Initialization
 
 Testing Binary Chromosomes:
 Objective: Maximize sum of genes (all 1s = best solution)
@@ -66,11 +66,11 @@ The GA engine follows this complete flow:
 1. **Initialization**: Create random population of specified size
 2. **Evaluation**: Calculate fitness for all individuals
 3. **Main Loop** (for each generation):
-   - **Selection**: Choose parents from population
-   - **Crossover**: Generate offspring from parents
-   - **Mutation**: Apply mutations to offspring
+   - **GeneticAlgorithmLibrary.Selection**: Choose parents from population
+   - **GeneticAlgorithmLibrary.Crossover**: Generate offspring from parents
+   - **GeneticAlgorithmLibrary.Mutation**: Apply mutations to offspring
    - **Infeasibility Handling**: Repair infeasible solutions
-   - **Replacement**: Update population with offspring
+   - **GeneticAlgorithmLibrary.Replacement**: Update population with offspring
    - **Evaluation**: Calculate fitness for new population
    - **Best Tracking**: Update best solution found
 
@@ -78,10 +78,10 @@ The GA engine follows this complete flow:
 
 ### Modular Design
 - All GA components are interfaces, allowing easy swapping
-- Chromosome types are polymorphic through common interface
+- GeneticAlgorithmLibrary.Chromosome.GeneticAlgorithmLibrary.Chromosome types are polymorphic through common interface
 - Clean separation of concerns
 
-### Population Initialization
+### GeneticAlgorithmLibrary.Population Initialization
 - Supports three chromosome types: Binary, Integer, Float
 - Random initialization with proper bounds checking
 - Configurable population size
@@ -101,19 +101,19 @@ The demo includes three test cases:
 3. **Float Chromosomes**: 6 genes, range 0.0-10.0, maximize sum (target: all 10.0s)
 
 Each test demonstrates:
-- Population initialization
+- GeneticAlgorithmLibrary.Population initialization
 - Algorithm execution
 - Fitness improvement over generations
 - Final solution quality
 
 ## 🎯 Deliverables Completed
 
-✅ **Class GeneticAlgorithm.java**: Complete GA engine with all required methods
-✅ **Class Population.java**: Population management with utility methods
+✅ **Class GeneticAlgorithmLibrary.GeneticAlgorithm.java**: Complete GA engine with all required methods
+✅ **Class GeneticAlgorithmLibrary.Population.java**: GeneticAlgorithmLibrary.Population management with utility methods
 ✅ **Working Demo**: Comprehensive test demonstrating all functionality
 ✅ **Modular Design**: All components are interfaces for future extensibility
-✅ **Three Chromosome Types**: Binary, Integer, and Float implementations
-✅ **Complete Algorithm Flow**: Initialization → Evaluation → Selection → Crossover → Mutation → Replacement
+✅ **Three GeneticAlgorithmLibrary.Chromosome.GeneticAlgorithmLibrary.Chromosome Types**: Binary, Integer, and Float implementations
+✅ **Complete Algorithm Flow**: Initialization → Evaluation → GeneticAlgorithmLibrary.Selection → GeneticAlgorithmLibrary.Crossover → GeneticAlgorithmLibrary.Mutation → GeneticAlgorithmLibrary.Replacement
 
 ## 🔮 Future Extensions
 

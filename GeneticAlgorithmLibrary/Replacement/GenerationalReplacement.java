@@ -1,3 +1,9 @@
+package GeneticAlgorithmLibrary.Replacement;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+import GeneticAlgorithmLibrary.Population;
+import GeneticAlgorithmLibrary.Replacement.ReplacementStrategy;
+
 import java.util.List;
 
 /**
@@ -5,16 +11,18 @@ import java.util.List;
  * This replaces the entire population with offspring
  */
 public class GenerationalReplacement implements ReplacementStrategy {
-    
+
     @Override
     public Population replace(Population currentPopulation, List<Chromosome> offspring) {
         Population newPopulation = new Population(currentPopulation.getExpectedSize());
         
         // Add all offspring to new population
-        for (Chromosome offspring : offspring) {
-            newPopulation.add(offspring);
+        for (Chromosome child : offspring) {
+            newPopulation.add(child);
         }
         
         return newPopulation;
     }
+
+
 }

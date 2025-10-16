@@ -1,3 +1,7 @@
+package GeneticAlgorithmLibrary;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+
 /**
  * Interface for fitness functions used in genetic algorithms
  */

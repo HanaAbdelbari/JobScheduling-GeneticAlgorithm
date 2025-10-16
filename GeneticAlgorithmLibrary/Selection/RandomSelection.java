@@ -1,3 +1,8 @@
+package GeneticAlgorithmLibrary.Selection;
+
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+import GeneticAlgorithmLibrary.Population;
+
 import java.util.ArrayList;
 import java.util.List;
 

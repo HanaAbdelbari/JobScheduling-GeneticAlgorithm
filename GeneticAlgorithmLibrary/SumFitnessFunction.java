@@ -1,3 +1,10 @@
+package GeneticAlgorithmLibrary;
+
+import GeneticAlgorithmLibrary.Chromosome.BinaryChromosome;
+import GeneticAlgorithmLibrary.Chromosome.Chromosome;
+import GeneticAlgorithmLibrary.Chromosome.FloatChromosome;
+import GeneticAlgorithmLibrary.Chromosome.IntegerChromosome;
+
 /**
  * Sample fitness function that maximizes the sum of genes
  * This is a simple example for demonstration purposes
