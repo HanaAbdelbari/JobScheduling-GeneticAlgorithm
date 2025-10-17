@@ -1,102 +1,86 @@
 package GeneticAlgorithmLibrary.Chromosome;
 
-/**
- * Integer chromosome implementation where each gene is an integer within a specified range
- */
-public class IntegerChromosome implements Chromosome {
+public class IntegerChromosome extends Chromosome {
     private int[] genes;
-    private double fitness;
     private int minValue;
     private int maxValue;
-    
-    /**
-     * Constructor for integer chromosome
-     * @param length the number of genes in the chromosome
-     * @param minValue minimum value for each gene
-     * @param maxValue maximum value for each gene
-     */
-    public IntegerChromosome(int length, int minValue, int maxValue) {
-        this.genes = new int[length];
-        this.fitness = 0.0;
+    private int seed;
+
+    public IntegerChromosome(int length, int minValue, int maxValue, int seed) {
+        super(length);
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue must be less than or equal to maxValue");
+        }
         this.minValue = minValue;
         this.maxValue = maxValue;
-    }
-    
-    @Override
-    public void randomInitialize() {
-        for (int i = 0; i < genes.length; i++) {
-            genes[i] = minValue + (int)(Math.random() * (maxValue - minValue + 1));
+        this.genes = new int[length];
+        this.seed = seed;
+
+        for (int i = 0; i < length; i++) {
+            genes[i] = minValue;
         }
     }
-    
+
     @Override
-    public double getFitness() {
-        return fitness;
+    public Object getGenes() {
+        return genes;
     }
-    
+
     @Override
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public void setGenes(Object genes) {
+        if (genes == null) {
+            throw new IllegalArgumentException("Genes cannot be null");
+        }
+        if (genes instanceof int[]) {
+            int[] arr = (int[]) genes;
+            if (arr.length != this.length) {
+                throw new IllegalArgumentException("Array length mismatch");
+            }
+            this.genes = new int[length];
+            copyArray(arr, this.genes, length);
+        } else {
+            throw new IllegalArgumentException("Expected int[]");
+        }
     }
-    
+
+
     @Override
-    public int getLength() {
-        return genes.length;
+    public void initialize() {
+        int range = maxValue - minValue + 1; // Inclusive range
+        for (int i = 0; i < length; i++) {
+            //Uses nextRandom to get pseudo-random values; seed is advanced within nextRandom( updated internally).
+            int rnd = nextRandom(seed, range);
+            genes[i] = minValue + rnd; // Assign integer value
+        }
     }
-    
+
     @Override
-    public Chromosome copy() {
-        IntegerChromosome copy = new IntegerChromosome(genes.length, minValue, maxValue);
-        System.arraycopy(genes, 0, copy.genes, 0, genes.length);
+    public Chromosome clone() {
+        IntegerChromosome copy = new IntegerChromosome(this.length, this.minValue, this.maxValue, this.seed);
+        copyArray(this.genes, copy.genes, this.length);
         copy.fitness = this.fitness;
         return copy;
     }
-    
-    /**
-     * Get the gene at specific index
-     * @param index the gene index
-     * @return gene value
-     */
-    public int getGene(int index) {
-        return genes[index];
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("IntegerChromosome: [");
+        for (int i = 0; i < length; i++) {
+            sb.append(genes[i]);
+            if (i < length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("] | fitness=").append(fitness);
+        return sb.toString();
     }
-    
-    /**
-     * Set the gene at specific index
-     * @param index the gene index
-     * @param value the gene value
-     */
-    public void setGene(int index, int value) {
-        genes[index] = value;
-    }
-    
-    /**
-     * Get minimum value for genes
-     * @return minimum value
-     */
+
+
     public int getMinValue() {
         return minValue;
     }
-    
-    /**
-     * Get maximum value for genes
-     * @return maximum value
-     */
+
     public int getMaxValue() {
         return maxValue;
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < genes.length; i++) {
-            sb.append(genes[i]);
-            if (i < genes.length - 1) {
-                sb.append(",");
-            }
-        }
-        sb.append("]");
-        return sb.toString();
     }
 }

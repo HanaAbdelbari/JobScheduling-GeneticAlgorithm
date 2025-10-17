@@ -1,102 +1,91 @@
 package GeneticAlgorithmLibrary.Chromosome;
 
-/**
- * Floating-point chromosome implementation where each gene is a real number within a specified range
- */
-public class FloatChromosome implements Chromosome {
+
+public class FloatChromosome extends Chromosome {
     private double[] genes;
-    private double fitness;
     private double minValue;
     private double maxValue;
-    
-    /**
-     * Constructor for floating-point chromosome
-     * @param length the number of genes in the chromosome
-     * @param minValue minimum value for each gene
-     * @param maxValue maximum value for each gene
-     */
-    public FloatChromosome(int length, double minValue, double maxValue) {
-        this.genes = new double[length];
-        this.fitness = 0.0;
+    private int seed;
+
+
+    public FloatChromosome(int length, double minValue, double maxValue, int seed) {
+        super(length);
+        if (minValue >= maxValue) {
+            throw new IllegalArgumentException("minValue must be less than maxValue");
+        }
         this.minValue = minValue;
         this.maxValue = maxValue;
-    }
-    
-    @Override
-    public void randomInitialize() {
-        for (int i = 0; i < genes.length; i++) {
-            genes[i] = minValue + Math.random() * (maxValue - minValue);
+        this.genes = new double[length];
+        this.seed = seed;
+
+        for (int i = 0; i < length; i++) {
+            genes[i] = minValue;
         }
     }
-    
+
     @Override
-    public double getFitness() {
-        return fitness;
+    public Object getGenes() {
+        return genes;
     }
-    
+
     @Override
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public void setGenes(Object genes) {
+        if (genes == null) {
+            throw new IllegalArgumentException("Genes cannot be null");
+        }
+        if (genes instanceof double[]) {
+            double[] arr = (double[]) genes;
+            if (arr.length != this.length) {
+                throw new IllegalArgumentException("Array length mismatch");
+            }
+            this.genes = new double[length];
+            copyArray(arr, this.genes, length);
+        } else {
+            throw new IllegalArgumentException("Expected double[]");
+        }
     }
-    
+
+
+     // Initialize chromosome randomly with values within [minValue, maxValue] using LCG.
     @Override
-    public int getLength() {
-        return genes.length;
+    public void initialize() {
+        double range = maxValue - minValue;
+        for (int i = 0; i < length; i++) {
+            //separate the random value (rnd) from the full seed update, so the pseudo-random generator works as expected.
+            int rnd = nextRandom(seed, 1000); // Get random value
+            seed = (1103515245 * seed + 12345) & 0x7fffffff; // Advance full seed state
+            double fraction = (double) rnd / 1000.0; // Convert to [0, 1)
+            genes[i] = minValue + range * fraction;
+        }
     }
-    
+
     @Override
-    public Chromosome copy() {
-        FloatChromosome copy = new FloatChromosome(genes.length, minValue, maxValue);
-        System.arraycopy(genes, 0, copy.genes, 0, genes.length);
-        copy.fitness = this.fitness;
+    public Chromosome clone() {
+        FloatChromosome copy = new FloatChromosome(this.length, this.minValue, this.maxValue, this.seed);
+        copyArray(this.genes, copy.genes, this.length);
+        copy.fitness = this.fitness; // Copy fitness
         return copy;
     }
-    
-    /**
-     * Get the gene at specific index
-     * @param index the gene index
-     * @return gene value
-     */
-    public double getGene(int index) {
-        return genes[index];
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("FloatChromosome: [");
+        for (int i = 0; i < length; i++) {
+            sb.append(genes[i]);
+            if (i < length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("] | fitness=").append(fitness);
+        return sb.toString();
     }
-    
-    /**
-     * Set the gene at specific index
-     * @param index the gene index
-     * @param value the gene value
-     */
-    public void setGene(int index, double value) {
-        genes[index] = value;
-    }
-    
-    /**
-     * Get minimum value for genes
-     * @return minimum value
-     */
+
+
     public double getMinValue() {
         return minValue;
     }
-    
-    /**
-     * Get maximum value for genes
-     * @return maximum value
-     */
+
     public double getMaxValue() {
         return maxValue;
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < genes.length; i++) {
-            sb.append(String.format("%.4f", genes[i]));
-            if (i < genes.length - 1) {
-                sb.append(",");
-            }
-        }
-        sb.append("]");
-        return sb.toString();
     }
 }

@@ -1,41 +1,62 @@
 package GeneticAlgorithmLibrary.Chromosome;
 
-/**
- * Base interface for all chromosome types in the Genetic Algorithm library
- */
-public interface Chromosome {
-    /**
-     * Randomly initialize the chromosome with random values
-     */
-    void randomInitialize();
-    
-    /**
-     * Get the fitness value of this chromosome
-     * @return fitness value
-     */
-    double getFitness();
-    
-    /**
-     * Set the fitness value of this chromosome
-     * @param fitness the fitness value to set
-     */
-    void setFitness(double fitness);
-    
-    /**
-     * Get the length of the chromosome (number of genes)
-     * @return chromosome length
-     */
-    int getLength();
-    
-    /**
-     * Get a copy of this chromosome
-     * @return a new chromosome with the same values
-     */
-    Chromosome copy();
-    
-    /**
-     * Get string representation of the chromosome
-     * @return string representation
-     */
-    String toString();
+// Implements Cloneable so chromosomes can be safely copied
+public abstract class Chromosome implements Cloneable {
+    protected int length;
+    protected double fitness = 0.0;
+
+    public Chromosome(int length) {
+        this.length = length;
+    }
+
+    public abstract Object getGenes();
+    public abstract void setGenes(Object genes);
+    public abstract void initialize();
+
+    public int getLength() {
+        return length;
+    }
+
+    public double getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+
+    @Override
+    public abstract Chromosome clone();  // Abstract clone method to enforce implementation
+
+    @Override
+    public abstract String toString();
+
+    protected void copyArray(Object source, Object destination, int length) {
+        if (source instanceof boolean[] && destination instanceof boolean[]) {
+            boolean[] src = (boolean[]) source;
+            boolean[] dest = (boolean[]) destination;
+            for (int i = 0; i < length; i++) {
+                dest[i] = src[i];
+            }
+        } else if (source instanceof int[] && destination instanceof int[]) {
+            int[] src = (int[]) source;
+            int[] dest = (int[]) destination;
+            for (int i = 0; i < length; i++) {
+                dest[i] = src[i];
+            }
+        } else if (source instanceof double[] && destination instanceof double[]) {
+            double[] src = (double[]) source;
+            double[] dest = (double[]) destination;
+            for (int i = 0; i < length; i++) {
+                dest[i] = src[i];
+            }
+        } else {
+            throw new IllegalArgumentException("Unsupported array type for copying");
+        }
+    }
+
+    protected int nextRandom(int seed, int max) {
+        seed = (1103515245 * seed + 12345) & 0x7fffffff; // LCG parameters
+        return seed % max;
+    }
 }
