@@ -20,7 +20,12 @@ public class RandomSelection implements SelectionMethod {
     public RandomSelection(int numParents) {
         this.numParents = numParents;
     }
-    
+
+    @Override
+    public List<Chromosome> select(Population population, int numParents) {
+        return List.of();
+    }
+
     @Override
     public List<Chromosome> select(Population population) {
         List<Chromosome> parents = new ArrayList<>();

@@ -109,8 +109,8 @@ public class GeneticAlgorithm {
         population = new Population(populationSize);
         
         for (int i = 0; i < populationSize; i++) {
-            Chromosome individual = chromosomePrototype.copy();
-            individual.randomInitialize();
+            Chromosome individual = chromosomePrototype.clone();
+            individual.initialize();
             population.add(individual);
         }
     }

@@ -22,8 +22,8 @@ public class SinglePointCrossover implements CrossoverMethod {
             
             if (Math.random() < crossoverRate) {
                 // Perform crossover
-                Chromosome child1 = parent1.copy();
-                Chromosome child2 = parent2.copy();
+                Chromosome child1 = parent1.clone();
+                Chromosome child2 = parent2.clone();
                 
                 // Simple crossover: swap halves
                 int crossoverPoint = parent1.getLength() / 2;
@@ -33,8 +33,8 @@ public class SinglePointCrossover implements CrossoverMethod {
                 offspring.add(child2);
             } else {
                 // No crossover, add parents as offspring
-                offspring.add(parent1.copy());
-                offspring.add(parent2.copy());
+                offspring.add(parent1.clone());
+                offspring.add(parent2.clone());
             }
         }
         
