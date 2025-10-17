@@ -1,80 +1,65 @@
 package GeneticAlgorithmLibrary.Chromosome;
 
-/**
- * Binary chromosome implementation where each gene is 0 or 1
- */
-public class BinaryChromosome implements Chromosome {
-    private int[] genes;
-    private double fitness;
-    
-    /**
-     * Constructor for binary chromosome
-     * @param length the number of genes in the chromosome
-     */
-    public BinaryChromosome(int length) {
-        this.genes = new int[length];
-        this.fitness = 0.0;
-    }
-    
-    @Override
-    public void randomInitialize() {
-        for (int i = 0; i < genes.length; i++) {
-            genes[i] = Math.random() < 0.5 ? 0 : 1;
+public class BinaryChromosome extends Chromosome {
+    private boolean[] genes;   //Uses a boolean[] array to represent genes.
+    private int seed;          // internal seed for LCG-based randomness
+
+    public BinaryChromosome(int length, int seed) {
+        super(length);
+        this.genes = new boolean[length];
+        this.seed = seed;
+
+        for (int i = 0; i < length; i++) {
+            genes[i] = false;
         }
     }
-    
+
     @Override
-    public double getFitness() {
-        return fitness;
+    public Object getGenes() {
+        return genes;
     }
-    
+
     @Override
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public void setGenes(Object genes) {
+        if (genes == null) {
+            throw new IllegalArgumentException("Genes cannot be null");
+        }
+        if (genes instanceof boolean[]) {
+            boolean[] arr = (boolean[]) genes;
+            if (arr.length != this.length) {
+                throw new IllegalArgumentException("Array length mismatch");
+            }
+            this.genes = new boolean[length];
+            copyArray(arr, this.genes, length);
+        } else {
+            throw new IllegalArgumentException("Expected boolean[]");
+        }
     }
-    
+
+
     @Override
-    public int getLength() {
-        return genes.length;
+    public void initialize() {
+        for (int i = 0; i < length; i++) {
+            seed = nextRandom(seed, 2);
+            genes[i] = (seed == 1);
+        }
     }
-    
+
     @Override
-    public Chromosome copy() {
-        BinaryChromosome copy = new BinaryChromosome(genes.length);
-        System.arraycopy(genes, 0, copy.genes, 0, genes.length);
-        copy.fitness = this.fitness;
+    public Chromosome clone() {
+        BinaryChromosome copy = new BinaryChromosome(this.length, this.seed);
+        copyArray(this.genes, copy.genes, this.length);
+        copy.fitness = this.fitness; // Copy fitness
         return copy;
     }
-    
-    /**
-     * Get the gene at specific index
-     * @param index the gene index
-     * @return gene value (0 or 1)
-     */
-    public int getGene(int index) {
-        return genes[index];
-    }
-    
-    /**
-     * Set the gene at specific index
-     * @param index the gene index
-     * @param value the gene value (0 or 1)
-     */
-    public void setGene(int index, int value) {
-        genes[index] = value;
-    }
-    
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < genes.length; i++) {
-            sb.append(genes[i]);
-            if (i < genes.length - 1) {
-                sb.append(",");
-            }
+        StringBuilder sb = new StringBuilder("BinaryChromosome: ");
+        for (boolean g : genes) {
+            sb.append(g ? "1" : "0");
         }
-        sb.append("]");
+        sb.append(" | fitness=").append(fitness);
         return sb.toString();
     }
 }
