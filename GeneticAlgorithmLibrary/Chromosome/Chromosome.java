@@ -51,7 +51,7 @@ public abstract class Chromosome implements Cloneable {
                 dest[i] = src[i];
             }
         } else {
-            throw new IllegalArgumentException("Unsupported array type for copying");
+            throw new IllegalArgumentException("unsupported array type for copying");
         }
     }
 

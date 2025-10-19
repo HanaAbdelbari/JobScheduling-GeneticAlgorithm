@@ -9,7 +9,7 @@ public class IntegerChromosome extends Chromosome {
     public IntegerChromosome(int length, int minValue, int maxValue, int seed) {
         super(length);
         if (minValue > maxValue) {
-            throw new IllegalArgumentException("minValue must be less than or equal to maxValue");
+            throw new IllegalArgumentException("MinValue must be less than or equal to MaxValue");
         }
         this.minValue = minValue;
         this.maxValue = maxValue;
