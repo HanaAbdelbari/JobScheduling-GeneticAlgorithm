@@ -22,7 +22,7 @@ public class BinaryChromosome extends Chromosome {
     @Override
     public void setGenes(Object genes) {
         if (genes == null) {
-            throw new IllegalArgumentException("Genes cannot be null");
+            throw new IllegalArgumentException("genes cannot be null");
         }
         if (genes instanceof boolean[]) {
             boolean[] arr = (boolean[]) genes;
