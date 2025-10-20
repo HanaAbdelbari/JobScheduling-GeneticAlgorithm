@@ -1,0 +1,48 @@
+# ============================
+# IntelliJ IDEA / JetBrains
+# ============================
+
+# Project configuration files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IntelliJ workspace files
+out/
+build/
+
+# ============================
+# Java / Maven / Gradle
+# ============================
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ============================
+# OS-Specific
+# ============================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
