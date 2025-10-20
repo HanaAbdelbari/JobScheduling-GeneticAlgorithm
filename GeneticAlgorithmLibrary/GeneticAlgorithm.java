@@ -4,6 +4,7 @@ import GeneticAlgorithmLibrary.Chromosome.Chromosome;
 import GeneticAlgorithmLibrary.Crossover.CrossoverMethod;
 import GeneticAlgorithmLibrary.Mutation.MutationMethod;
 import GeneticAlgorithmLibrary.Replacement.ReplacementStrategy;
+import GeneticAlgorithmLibrary.Selection.Fitness.FitnessFunction;
 import GeneticAlgorithmLibrary.Selection.SelectionMethod;
 
 import java.util.List;

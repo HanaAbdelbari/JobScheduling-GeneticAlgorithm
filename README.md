@@ -13,7 +13,7 @@ This project implements the core engine for a Genetic Algorithm library, focusin
 - **GeneticAlgorithmLibrary.GeneticAlgorithm**: Main GA engine with complete algorithm flow
 
 ### GA Components (Interfaces)
-- **GeneticAlgorithmLibrary.FitnessFunction**: Interface for fitness evaluation
+- **GeneticAlgorithmLibrary.Selection.Fitness.FitnessFunction**: Interface for fitness evaluation
 - **GeneticAlgorithmLibrary.Selection.SelectionMethod**: Interface for parent selection
 - **GeneticAlgorithmLibrary.Crossover.CrossoverMethod**: Interface for crossover operations
 - **GeneticAlgorithmLibrary.Mutation.MutationMethod**: Interface for mutation operations

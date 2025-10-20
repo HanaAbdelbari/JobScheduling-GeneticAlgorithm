@@ -1,4 +1,4 @@
-package GeneticAlgorithmLibrary;
+package GeneticAlgorithmLibrary.Selection.Fitness;
 
 import GeneticAlgorithmLibrary.Chromosome.Chromosome;
 
