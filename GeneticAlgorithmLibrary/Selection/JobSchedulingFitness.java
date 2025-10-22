@@ -5,29 +5,19 @@ import GeneticAlgorithmLibrary.Chromosome.*;
 
 /**
  * Unified Fitness Function for Job Scheduling / Resource Allocation Problem
- *
- * Supports Binary, Integer, and Float Chromosomes:
- * - Binary: Selects which jobs to execute (1 = selected, 0 = not selected)
- * - Integer: Assigns each job to a machine (integer = machine index)
- * - Float: Fractional mapping of jobs to machines (continuous encoding)
- *
  * Objective:
- * Minimize the makespan = maximum machine load
- * GA maximizes fitness, so fitness = 1 / (1 + makespan)
+ * - Use all available machines efficiently (maximize utilization)
+ * - Avoid overloading any machine (capacity constraint)
+ * - Minimize makespan (total working time)
+ * Works with Binary, Integer, and Float chromosomes.
  */
 public class JobSchedulingFitness implements FitnessFunction {
 
-    private final double[] processingTimes;  // job durations
-    private final int numberOfMachines;           // number of available machines
-    private final double capacity;           // optional capacity constraint
-    private final double penaltyFactor = 10.0; // penalty for infeasibility
+    private final double[] processingTimes;   // Job durations
+    private final int numberOfMachines;       // Number of machines/resources
+    private final double capacity;            // Per-machine max capacity
+    private final double penaltyFactor = 10.0; // Penalty for over-capacity
 
-    /**
-     * Constructor for unified job scheduling fitness function.
-     * @param processingTimes array of job processing times
-     * @param numberOfMachines number of machines
-     * @param capacity optional total allowed processing time (used for binary type)
-     */
     public JobSchedulingFitness(double[] processingTimes, int numberOfMachines, double capacity) {
         this.processingTimes = processingTimes;
         this.numberOfMachines = numberOfMachines;
@@ -36,88 +26,104 @@ public class JobSchedulingFitness implements FitnessFunction {
 
     @Override
     public double evaluate(Chromosome chromosome) {
-        // Case 1: Binary Chromosome → Job selection
-        if (chromosome instanceof BinaryChromosome) {
+        if (chromosome instanceof BinaryChromosome)
             return evaluateBinary((BinaryChromosome) chromosome);
-        }
-
-        // Case 2: Integer Chromosome → Job-to-machine assignment
-        if (chromosome instanceof IntegerChromosome) {
+        if (chromosome instanceof IntegerChromosome)
             return evaluateInteger((IntegerChromosome) chromosome);
-        }
-
-        // Case 3: Float Chromosome → Continuous machine assignment
-        if (chromosome instanceof FloatChromosome) {
+        if (chromosome instanceof FloatChromosome)
             return evaluateFloat((FloatChromosome) chromosome);
-        }
 
-        // Unsupported type
         throw new IllegalArgumentException("Unsupported chromosome type for JobSchedulingFitness");
     }
 
-    /**
-     * Evaluates Binary Chromosome (Job Selection problem)
-     */
+    // -------------------------------------------------------------------------
+    // 1️⃣ BINARY: Job Selection Under Total Capacity
+    // -------------------------------------------------------------------------
     private double evaluateBinary(BinaryChromosome chromosome) {
         boolean[] genes = (boolean[]) chromosome.getGenes();
         double totalTime = 0.0;
 
+        // Sum selected jobs
         for (int i = 0; i < genes.length && i < processingTimes.length; i++) {
             if (genes[i]) totalTime += processingTimes[i];
         }
 
-        // Penalize if total time exceeds capacity
-        if (totalTime > capacity) {
-            double penalty = penaltyFactor * (totalTime - capacity);
-            return Math.max(0, capacity - penalty);
-        }
+        // Penalize over-capacity
+        double penalty = 0.0;
+        if (totalTime > capacity)
+            penalty = penaltyFactor * (totalTime - capacity);
 
-        return totalTime; // higher total time = better, until capacity
+        // Utilization = fraction of used capacity (clamped to [0, 1])
+        double utilization = Math.min(totalTime / capacity, 1.0);
+
+        // Fitness encourages high utilization but punishes overload
+        return utilization / (1.0 + penalty);
     }
 
-    /**
-     * Evaluates Integer Chromosome (Classic Job Scheduling / Makespan Minimization)
-     */
+    // -------------------------------------------------------------------------
+    // 2️⃣ INTEGER: Discrete Job-to-Machine Assignment
+    // -------------------------------------------------------------------------
     private double evaluateInteger(IntegerChromosome chromosome) {
         int[] assignments = (int[]) chromosome.getGenes();
         double[] machineLoads = new double[numberOfMachines];
 
-        // Compute total load per machine
+        // Calculate load per machine
         for (int i = 0; i < assignments.length && i < processingTimes.length; i++) {
-            int machine = assignments[i] % numberOfMachines; // ensure valid index
+            int machine = Math.abs(assignments[i]) % numberOfMachines;
             machineLoads[machine] += processingTimes[i];
         }
 
-        // Find the maximum load (makespan)
+        // Calculate penalties + metrics
         double makespan = max(machineLoads);
+        double penalty = overCapacityPenalty(machineLoads);
+        double avgUtilization = averageUtilization(machineLoads);
 
-        // Fitness is inverse of makespan
-        return 1.0 / (1.0 + makespan);
+        // Combine objectives: high utilization, low makespan, low penalty
+        return avgUtilization / (1.0 + makespan + penaltyFactor * penalty);
     }
 
-    /**
-     * Evaluates Float Chromosome (Continuous encoding)
-     */
+    // -------------------------------------------------------------------------
+    // 3️⃣ FLOAT: Continuous Job-to-Machine Assignment
+    // -------------------------------------------------------------------------
     private double evaluateFloat(FloatChromosome chromosome) {
         double[] genes = (double[]) chromosome.getGenes();
         double[] machineLoads = new double[numberOfMachines];
 
+        // Continuous assignment to nearest machine
         for (int i = 0; i < genes.length && i < processingTimes.length; i++) {
             int machine = (int) Math.floor(genes[i] * numberOfMachines);
             if (machine >= numberOfMachines) machine = numberOfMachines - 1;
+            if (machine < 0) machine = 0;
             machineLoads[machine] += processingTimes[i];
         }
 
         double makespan = max(machineLoads);
-        return 1.0 / (1.0 + makespan);
+        double penalty = overCapacityPenalty(machineLoads);
+        double avgUtilization = averageUtilization(machineLoads);
+
+        return avgUtilization / (1.0 + makespan + penaltyFactor * penalty);
     }
 
-    /**
-     * Utility: Get max from array
-     */
+    // -------------------------------------------------------------------------
+    // Utility Methods
+    // -------------------------------------------------------------------------
     private double max(double[] arr) {
-        double m = arr[0];
-        for (double v : arr) if (v > m) m = v;
-        return m;
+        double maxVal = arr[0];
+        for (double v : arr) if (v > maxVal) maxVal = v;
+        return maxVal;
+    }
+
+    private double overCapacityPenalty(double[] loads) {
+        double penalty = 0.0;
+        for (double load : loads)
+            if (load > capacity) penalty += (load - capacity);
+        return penalty;
+    }
+
+    private double averageUtilization(double[] loads) {
+        double total = 0.0;
+        for (double load : loads)
+            total += Math.min(load, capacity) / capacity;
+        return total / numberOfMachines;
     }
 }
