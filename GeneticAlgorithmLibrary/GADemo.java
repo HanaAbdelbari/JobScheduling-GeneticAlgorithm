@@ -5,7 +5,9 @@ import GeneticAlgorithmLibrary.Chromosome.Chromosome;
 import GeneticAlgorithmLibrary.Chromosome.FloatChromosome;
 import GeneticAlgorithmLibrary.Chromosome.IntegerChromosome;
 import GeneticAlgorithmLibrary.Crossover.SinglePointCrossover;
-import GeneticAlgorithmLibrary.Mutation.RandomMutation;
+import GeneticAlgorithmLibrary.Mutation.BitFlipMutation;
+import GeneticAlgorithmLibrary.Mutation.IntegerNeighborMutation;
+import GeneticAlgorithmLibrary.Mutation.FloatUniformMutation;
 import GeneticAlgorithmLibrary.Replacement.GenerationalReplacement;
 import GeneticAlgorithmLibrary.Selection.RandomSelection;
 
@@ -59,7 +61,8 @@ public class GADemo {
         // Set GA components
         ga.setSelectionMethod(new RandomSelection(20));
         ga.setCrossoverMethod(new SinglePointCrossover());
-        ga.setMutationMethod(new RandomMutation());
+        // Try different mutation strategies for Binary
+        ga.setMutationMethod(new BitFlipMutation());
         ga.setReplacementStrategy(new GenerationalReplacement());
         
         // Run GA
@@ -96,7 +99,8 @@ public class GADemo {
         // Set GA components
         ga.setSelectionMethod(new RandomSelection(15));
         ga.setCrossoverMethod(new SinglePointCrossover());
-        ga.setMutationMethod(new RandomMutation());
+        // Use integer neighbor mutation
+        ga.setMutationMethod(new IntegerNeighborMutation());
         ga.setReplacementStrategy(new GenerationalReplacement());
         
         // Run GA
@@ -133,7 +137,8 @@ public class GADemo {
         // Set GA components
         ga.setSelectionMethod(new RandomSelection(12));
         ga.setCrossoverMethod(new SinglePointCrossover());
-        ga.setMutationMethod(new RandomMutation());
+        // Use Float Uniform Mutation as per lectures
+        ga.setMutationMethod(new FloatUniformMutation(0.05));
         ga.setReplacementStrategy(new GenerationalReplacement());
         
         // Run GA
