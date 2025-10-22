@@ -6,30 +6,32 @@ import GeneticAlgorithmLibrary.Chromosome.IntegerChromosome;
 import java.util.List;
 
 /**
- * Integer neighbor mutation: pick a random gene and add either +1 or -1,
- * clamped within [minValue, maxValue]. Applies per chromosome with probability = mutationRate.
+ * Integer Neighbor Mutation:
+ * Randomly increments or decrements a gene by 1 (within [minValue, maxValue]).
+ * Each gene mutates independently with probability = mutationRate.
  */
 public class IntegerNeighborMutation implements MutationMethod {
 
     @Override
     public void mutate(List<Chromosome> chromosomes, double mutationRate) {
         for (Chromosome chromosome : chromosomes) {
-            if (chromosome instanceof IntegerChromosome) {
-                IntegerChromosome intChr = (IntegerChromosome) chromosome;
-                int[] genes = (int[]) intChr.getGenes();
-                for (int i = 0; i < intChr.getLength(); i++) {
-                    if (Math.random() < mutationRate) {
-                        int delta = Math.random() < 0.5 ? -1 : 1;
-                        int newVal = genes[i] + delta;
-                        if (newVal < intChr.getMinValue()) newVal = intChr.getMinValue();
-                        if (newVal > intChr.getMaxValue()) newVal = intChr.getMaxValue();
-                        genes[i] = newVal;
-                    }
+
+            if (!(chromosome instanceof IntegerChromosome))
+                continue;
+
+            IntegerChromosome intChr = (IntegerChromosome) chromosome;
+            int[] genes = (int[]) intChr.getGenes();
+            int min = intChr.getMinValue();
+            int max = intChr.getMaxValue();
+
+            for (int i = 0; i < genes.length; i++) {
+                if (Math.random() < mutationRate) {
+                    int change = Math.random() < 0.5 ? -1 : 1;
+                    genes[i] = Math.max(min, Math.min(max, genes[i] + change));
                 }
-                intChr.setGenes(genes);
             }
+
+            intChr.setGenes(genes);
         }
     }
 }
-
-
