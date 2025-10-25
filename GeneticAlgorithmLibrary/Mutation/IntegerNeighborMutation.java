@@ -5,11 +5,7 @@ import GeneticAlgorithmLibrary.Chromosome.IntegerChromosome;
 
 import java.util.List;
 
-/**
- * Integer Neighbor Mutation:
- * Randomly increments or decrements a gene by 1 (within [minValue, maxValue]).
- * Each gene mutates independently with probability = mutationRate.
- */
+
 public class IntegerNeighborMutation implements MutationMethod {
 
     @Override

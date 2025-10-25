@@ -47,23 +47,22 @@ public class FloatChromosome extends Chromosome {
 
 
      // Initialize chromosome randomly with values within [minValue, maxValue] using LCG.
-    @Override
-    public void initialize() {
-        double range = maxValue - minValue;
-        for (int i = 0; i < length; i++) {
-            //separate the random value (rnd) from the full seed update, so the pseudo-random generator works as expected.
-            int rnd = nextRandom(seed, 1000); // Get random value
-            seed = (1103515245 * seed + 12345) & 0x7fffffff; // Advance full seed state
-            double fraction = (double) rnd / 1000.0; // Convert to [0, 1)
-            genes[i] = minValue + range * fraction;
-        }
-    }
+     @Override
+     public void initialize() {
+         double range = maxValue - minValue;
+         for (int i = 0; i < length; i++) {
+             int rnd = nextRandom(1000);                // integer in [0,999]
+             double fraction = (double) rnd / 1000.0;   // in [0,1)
+             genes[i] = minValue + range * fraction;
+         }
+     }
+
 
     @Override
     public Chromosome clone() {
         FloatChromosome copy = new FloatChromosome(this.length, this.minValue, this.maxValue, this.seed);
         copyArray(this.genes, copy.genes, this.length);
-        copy.fitness = this.fitness; // Copy fitness
+        copy.fitness = this.fitness;
         return copy;
     }
 

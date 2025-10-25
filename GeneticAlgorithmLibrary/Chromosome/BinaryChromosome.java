@@ -1,7 +1,7 @@
 package GeneticAlgorithmLibrary.Chromosome;
 
 public class BinaryChromosome extends Chromosome {
-    private boolean[] genes;   //Uses a boolean[] array to represent genes.
+    private boolean[] genes;   //Uses a bool array to represent genes.
     private int seed;          // internal seed for LCG-based randomness
 
     public BinaryChromosome(int length, int seed) {
@@ -40,10 +40,11 @@ public class BinaryChromosome extends Chromosome {
     @Override
     public void initialize() {
         for (int i = 0; i < length; i++) {
-            seed = nextRandom(seed, 2);
-            genes[i] = (seed == 1);
+            int rnd = nextRandom(2);
+            genes[i] = (rnd == 1);
         }
     }
+
 
     @Override
     public Chromosome clone() {

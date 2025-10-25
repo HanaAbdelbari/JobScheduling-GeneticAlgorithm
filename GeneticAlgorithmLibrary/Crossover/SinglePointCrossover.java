@@ -1,43 +1,53 @@
 package GeneticAlgorithmLibrary.Crossover;
 
 import GeneticAlgorithmLibrary.Chromosome.Chromosome;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Simple single-point crossover method for demonstration
- * This is a basic implementation - more sophisticated methods will be added later
- */
+
 public class SinglePointCrossover implements CrossoverMethod {
-    
     @Override
     public List<Chromosome> crossover(List<Chromosome> parents, double crossoverRate) {
         List<Chromosome> offspring = new ArrayList<>();
-        
-        // Process parents in pairs
-        for (int i = 0; i < parents.size() - 1; i += 2) {
-            Chromosome parent1 = parents.get(i);
-            Chromosome parent2 = parents.get(i + 1);
-            
-            if (Math.random() < crossoverRate) {
-                // Perform crossover
-                Chromosome child1 = parent1.copy();
-                Chromosome child2 = parent2.copy();
-                
-                // Simple crossover: swap halves
-                int crossoverPoint = parent1.getLength() / 2;
-                
-                // This is a simplified crossover - actual implementation would depend on chromosome type
-                offspring.add(child1);
-                offspring.add(child2);
-            } else {
-                // No crossover, add parents as offspring
-                offspring.add(parent1.copy());
-                offspring.add(parent2.copy());
-            }
+        if (parents.size() < 2) return offspring;
+
+        Chromosome p1 = parents.get(0);
+        Chromosome p2 = parents.get(1);
+
+        if (Math.random() > crossoverRate) {
+            offspring.add(p1.clone());
+            offspring.add(p2.clone());
+            return offspring;
         }
-        
+
+        Object g1 = p1.getGenes();
+        Object g2 = p2.getGenes();
+
+        int length = p1.getLength();
+        int point = (int) (Math.random() * length);
+
+        if (g1 instanceof int[] && g2 instanceof int[]) {
+            int[] a = (int[]) g1;
+            int[] b = (int[]) g2;
+            int[] child1 = new int[length];
+            int[] child2 = new int[length];
+
+            for (int i = 0; i < length; i++) {
+                if (i < point) {
+                    child1[i] = a[i];
+                    child2[i] = b[i];
+                } else {
+                    child1[i] = b[i];
+                    child2[i] = a[i];
+                }
+            }
+
+            p1.setGenes(child1);
+            p2.setGenes(child2);
+        }
+
+        offspring.add(p1.clone());
+        offspring.add(p2.clone());
         return offspring;
     }
 }

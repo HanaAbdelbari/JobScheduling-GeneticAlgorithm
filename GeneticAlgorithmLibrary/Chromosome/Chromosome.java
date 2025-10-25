@@ -1,9 +1,9 @@
 package GeneticAlgorithmLibrary.Chromosome;
 
-// Implements Cloneable so chromosomes can be safely copied
 public abstract class Chromosome implements Cloneable {
     protected int length;
     protected double fitness = 0.0;
+    protected int seed;
 
     public Chromosome(int length) {
         this.length = length;
@@ -28,8 +28,6 @@ public abstract class Chromosome implements Cloneable {
     @Override
     public abstract Chromosome clone();  // Abstract clone method to enforce implementation
 
-    @Override
-    public abstract String toString();
 
     protected void copyArray(Object source, Object destination, int length) {
         if (source instanceof boolean[] && destination instanceof boolean[]) {
@@ -55,8 +53,14 @@ public abstract class Chromosome implements Cloneable {
         }
     }
 
-    protected int nextRandom(int seed, int max) {
-        seed = (1103515245 * seed + 12345) & 0x7fffffff; // LCG parameters
-        return seed % max;
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
+
+    // update nextRandom to use and persist internal seed
+    protected int nextRandom(int max) {
+        // LCG update stored in this.seed
+        this.seed = (1103515245 * this.seed + 12345) & 0x7fffffff;
+        return this.seed % max;
     }
 }

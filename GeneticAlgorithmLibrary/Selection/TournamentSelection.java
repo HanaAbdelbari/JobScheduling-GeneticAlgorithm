@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Tournament Selection:
- * Randomly selects k individuals from the population and chooses the best among them.
- */
+
 public class TournamentSelection implements SelectionMethod {
     private final int tournamentSize;
     private final Random random = new Random();
@@ -20,7 +17,7 @@ public class TournamentSelection implements SelectionMethod {
         this.tournamentSize = tournamentSize;
     }
 
-    /** Selection with specified number of parents */
+
     @Override
     public List<Chromosome> select(Population population, int numParents) {
         List<Chromosome> selected = new ArrayList<>();
@@ -39,7 +36,6 @@ public class TournamentSelection implements SelectionMethod {
         return selected;
     }
 
-    /** Default selection — selects two parents */
     @Override
     public List<Chromosome> select(Population population) {
         return select(population, 2);  // default to selecting 2 parents

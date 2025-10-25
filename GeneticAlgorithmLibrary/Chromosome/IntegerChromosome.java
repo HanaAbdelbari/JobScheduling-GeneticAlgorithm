@@ -48,11 +48,11 @@ public class IntegerChromosome extends Chromosome {
     public void initialize() {
         int range = maxValue - minValue + 1; // Inclusive range
         for (int i = 0; i < length; i++) {
-            //Uses nextRandom to get pseudo-random values; seed is advanced within nextRandom( updated internally).
-            int rnd = nextRandom(seed, range);
-            genes[i] = minValue + rnd; // Assign integer value
+            int rnd = nextRandom(range); // updates seed internally
+            genes[i] = minValue + rnd;
         }
     }
+
 
     @Override
     public Chromosome clone() {

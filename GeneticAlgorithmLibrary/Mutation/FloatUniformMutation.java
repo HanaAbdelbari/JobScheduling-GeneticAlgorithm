@@ -5,18 +5,13 @@ import GeneticAlgorithmLibrary.Chromosome.FloatChromosome;
 
 import java.util.List;
 
-/**
- * Uniform Floating-Point Mutation:
- * Adds small uniform noise to each gene with probability = mutationRate.
- * The noise is within [-noiseScale * range, +noiseScale * range],
- * and the result is clamped to [minValue, maxValue].
- */
+
 public class FloatUniformMutation implements MutationMethod {
 
     private final double noiseScale;
 
     public FloatUniformMutation() {
-        this(0.05); // default = 5% of range
+        this(0.05);
     }
 
     public FloatUniformMutation(double noiseScale) {
@@ -27,7 +22,7 @@ public class FloatUniformMutation implements MutationMethod {
     public void mutate(List<Chromosome> chromosomes, double mutationRate) {
         for (Chromosome chromosome : chromosomes) {
             if (!(chromosome instanceof FloatChromosome))
-                continue; // Skip non-float chromosomes
+                continue;
 
             FloatChromosome flt = (FloatChromosome) chromosome;
             double[] genes = (double[]) flt.getGenes();
@@ -37,7 +32,7 @@ public class FloatUniformMutation implements MutationMethod {
 
             for (int i = 0; i < genes.length; i++) {
                 if (Math.random() < mutationRate) {
-                    double step = (Math.random() * 2 - 1) * maxStep; // in [-maxStep, +maxStep]
+                    double step = (Math.random() * 2 - 1) * maxStep; 
                     genes[i] = Math.max(min, Math.min(max, genes[i] + step));
                 }
             }

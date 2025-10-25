@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Roulette Wheel Selection:
- * Selects individuals based on fitness proportion — higher fitness = higher chance.
- */
+
 public class RouletteWheelSelection implements SelectionMethod {
     private final Random random = new Random();
 
-    /** Selection with specified number of parents */
     @Override
     public List<Chromosome> select(Population population, int numParents) {
         List<Chromosome> selected = new ArrayList<>();
@@ -46,7 +42,6 @@ public class RouletteWheelSelection implements SelectionMethod {
         return selected;
     }
 
-    /** Default selection — selects two parents */
     @Override
     public List<Chromosome> select(Population population) {
         return select(population, 2);

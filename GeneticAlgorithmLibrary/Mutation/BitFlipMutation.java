@@ -5,10 +5,7 @@ import GeneticAlgorithmLibrary.Chromosome.Chromosome;
 
 import java.util.List;
 
-/**
- * Bit-flip mutation for binary chromosomes.
- * Picks a random bit and flips it (0 <-> 1) with probability = mutationRate per chromosome.
- */
+
 public class BitFlipMutation implements MutationMethod {
 
     @Override
