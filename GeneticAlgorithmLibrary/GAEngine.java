@@ -9,9 +9,6 @@ import GeneticAlgorithmLibrary.Replacement.ReplacementMethod;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Core Genetic Algorithm Engine — clean version using only existing library classes.
- */
 public class GAEngine {
 
     private final int populationSize;
