@@ -1,5 +1,7 @@
 package FuzzyLogicLibrary.Inference;
 
+import java.util.List;
+
 public class MamdaniEngine implements InferenceEngine {
     private ImplicationOperator implicationOperator;
     private AggregationOperator aggregationOperator;
@@ -40,7 +42,7 @@ public class MamdaniEngine implements InferenceEngine {
     }
 
     @Override
-    public double[] infer(java.util.List<InferenceEngine.RuleActivation> activations, double[] outputUniverse) {
+    public double[] infer(List<RuleActivation> activations, double[] outputUniverse) {
         if (outputUniverse == null || outputUniverse.length == 0)
             throw new IllegalArgumentException("outputUniverse must be non-empty");
 
