@@ -7,6 +7,8 @@ public class Linear implements ActivationFunction{
         return z; // Return unchanged
     }
 
+    //used in the output layer for regression problems
+
     @Override
     public double[][] derivative(double[][] z) {
         double[][] result = new double[z.length][z[0].length];

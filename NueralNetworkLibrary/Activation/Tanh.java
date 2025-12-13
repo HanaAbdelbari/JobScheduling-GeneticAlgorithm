@@ -2,11 +2,13 @@ package NueralNetworkLibrary.Activation;
 
 public class Tanh implements ActivationFunction{
 
+    //Zero-centered better than (sigmoid) in hidden layers
     @Override
     public double[][] activate(double[][] z) {
         double[][] result = new double[z.length][z[0].length];
         for (int i = 0; i < z.length; i++) {
             for (int j = 0; j < z[0].length; j++) {
+                //Outputs in range [-1, 1]
                 result[i][j] = Math.tanh(z[i][j]);
             }
         }
