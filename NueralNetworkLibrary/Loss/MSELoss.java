@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Loss;
+package NeuralNetworkLibrary.Loss;
 
 //used in Regression
 public class MSELoss implements LossFunction{

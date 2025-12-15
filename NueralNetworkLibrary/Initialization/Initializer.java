@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Initialization;
+package NeuralNetworkLibrary.Initialization;
 
  //set initial weights before training begins
 public interface Initializer {

@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.ExceptionHandlers;
+package NeuralNetworkLibrary.ExceptionHandlers;
 
 public class LayerConfigurationException {
 }

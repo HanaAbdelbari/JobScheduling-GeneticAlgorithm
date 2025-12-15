@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Activation;
+package NeuralNetworkLibrary.Activation;
 
 public class Tanh implements ActivationFunction{
 
