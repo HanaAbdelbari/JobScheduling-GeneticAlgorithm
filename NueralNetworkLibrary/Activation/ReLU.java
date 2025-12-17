@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Activation;
+package NeuralNetworkLibrary.Activation;
 
 //Most common hidden layer activation,Prevents vanishing gradient
 public class ReLU implements ActivationFunction {

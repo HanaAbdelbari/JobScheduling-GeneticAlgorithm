@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Loss;
+package NeuralNetworkLibrary.Loss;
 
 public interface LossFunction {
 

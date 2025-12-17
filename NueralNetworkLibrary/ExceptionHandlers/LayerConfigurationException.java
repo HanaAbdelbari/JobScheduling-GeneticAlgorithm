@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.ExceptionHandlers;
+package NeuralNetworkLibrary.ExceptionHandlers;
 
 // these exception is for invalid layer sizes or intialization problem
 /*

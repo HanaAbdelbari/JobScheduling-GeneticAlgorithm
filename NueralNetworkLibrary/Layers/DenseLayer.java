@@ -1,7 +1,7 @@
-package NueralNetworkLibrary.Layers;
+package NeuralNetworkLibrary.Layers;
 
-import NueralNetworkLibrary.Activation.ActivationFunction;
-import NueralNetworkLibrary.Initialization.Initializer;
+import NeuralNetworkLibrary.Activation.ActivationFunction;
+import NeuralNetworkLibrary.Initialization.Initializer;
 
 
 public class DenseLayer extends Layer {

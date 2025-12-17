@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Activation;
+package NeuralNetworkLibrary.Activation;
 
 public interface ActivationFunction {
     //forward propagation

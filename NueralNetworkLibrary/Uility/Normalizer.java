@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Uility;
+package NeuralNetworkLibrary.Utility;
 
 import NueralNetworkLibrary.ExceptionHandlers.InvalidHyperParameterException;
 
