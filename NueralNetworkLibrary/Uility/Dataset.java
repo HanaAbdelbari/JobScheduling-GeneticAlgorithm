@@ -1,101 +1,81 @@
 package NeuralNetworkLibrary.Utility;
 
-/**
- * Dataset container for training and testing data.
- * Holds feature matrix X and label matrix Y.
- */
+import NueralNetworkLibrary.ExceptionHandlers.ShapeMismatchException;
+
 public class Dataset {
-    private double[][] X;  // Features [samples x features]
-    private double[][] Y;  // Labels [samples x outputs]
 
-    /**
-     * Constructor for dataset.
-     * @param X Feature matrix [samples x features]
-     * @param Y Label matrix [samples x outputs]
-     */
-    public Dataset(double[][] X, double[][] Y) {
-        if (X.length != Y.length) {
-            throw new IllegalArgumentException(
-                "Number of samples in X and Y must match. Got X: " + 
-                X.length + ", Y: " + Y.length
+    private final Matrix features; // X
+    private final Matrix labels;   // y
+
+    public Dataset(Matrix features, Matrix labels) {
+
+        if (features.getRows() != labels.getRows()) {
+            throw new ShapeMismatchException(
+                    "Number of samples in features and labels must match."
             );
         }
-        this.X = X;
-        this.Y = Y;
+        this.features = features;
+        this.labels = labels;
     }
 
-    /**
-     * Get the feature matrix.
-     * @return Feature matrix X
-     */
-    public double[][] getX() {
-        return X;
+    public Matrix getFeatures() {
+        return features;
     }
 
-    /**
-     * Get the label matrix.
-     * @return Label matrix Y
-     */
-    public double[][] getY() {
-        return Y;
+    public Matrix getLabels() {
+        return labels;
     }
 
-    /**
-     * Get the number of samples in the dataset.
-     * @return Number of samples
-     */
     public int size() {
-        return X.length;
+        return features.getRows();
     }
 
-    /**
-     * Get the number of features per sample.
-     * @return Number of features
-     */
-    public int getFeatureCount() {
-        return X[0].length;
-    }
 
-    /**
-     * Get the number of output labels per sample.
-     * @return Number of outputs
-     */
-    public int getOutputCount() {
-        return Y[0].length;
-    }
-
-    /**
-     * Get a subset of the dataset.
-     * @param startIdx Start index (inclusive)
-     * @param endIdx End index (exclusive)
-     * @return New Dataset containing the specified range
-     */
-    public Dataset subset(int startIdx, int endIdx) {
-        if (startIdx < 0 || endIdx > X.length || startIdx >= endIdx) {
-            throw new IllegalArgumentException(
-                "Invalid subset range: [" + startIdx + ", " + endIdx + ")"
-            );
+    // Train/Test split
+    public Dataset[] trainTestSplit(double trainRatio) {
+        if (trainRatio <= 0 || trainRatio >= 1) {
+            throw new IllegalArgumentException("Train ratio must be between 0 and 1.");
         }
 
-        int subsetSize = endIdx - startIdx;
-        double[][] subX = new double[subsetSize][];
-        double[][] subY = new double[subsetSize][];
+        int total = size();
+        int trainSize = (int) (total * trainRatio);
 
-        for (int i = 0; i < subsetSize; i++) {
-            subX[i] = X[startIdx + i];
-            subY[i] = Y[startIdx + i];
+        Matrix X_train = new Matrix(trainSize, features.getCols());
+        Matrix y_train = new Matrix(trainSize, labels.getCols());
+
+        Matrix X_test = new Matrix(total - trainSize, features.getCols());
+        Matrix y_test = new Matrix(total - trainSize, labels.getCols());
+
+        for (int i = 0; i < total; i++) {
+            if (i < trainSize) {
+                X_train.getData()[i] = features.getData()[i];
+                y_train.getData()[i] = labels.getData()[i];
+            } else {
+                X_test.getData()[i - trainSize] = features.getData()[i];
+                y_test.getData()[i - trainSize] = labels.getData()[i];
+            }
         }
 
-        return new Dataset(subX, subY);
+        return new Dataset[]{
+                new Dataset(X_train, y_train),
+                new Dataset(X_test, y_test)
+        };
     }
 
-    /**
-     * Print dataset information.
-     */
-    public void printInfo() {
-        System.out.println("Dataset Info:");
-        System.out.println("  Samples: " + size());
-        System.out.println("  Features: " + getFeatureCount());
-        System.out.println("  Outputs: " + getOutputCount());
+// shuffle
+public void shuffle() {
+    int n = size();
+
+    for (int i = n - 1; i > 0; i--) {
+        int j = (int) (Math.random() * (i + 1));
+
+        double[] tempX = features.getData()[i];
+        features.getData()[i] = features.getData()[j];
+        features.getData()[j] = tempX;
+
+        double[] tempY = labels.getData()[i];
+        labels.getData()[i] = labels.getData()[j];
+        labels.getData()[j] = tempY;
     }
+}
 }
