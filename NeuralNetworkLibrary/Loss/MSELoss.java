@@ -34,6 +34,14 @@ public class MSELoss implements LossFunction {
         return grad;
     }
 
+    private void validate(Matrix yTrue, Matrix yPred) {
+        if (yTrue.getRows() != yPred.getRows() ||
+                yTrue.getCols() != yPred.getCols()) {
+            throw new IllegalArgumentException(
+                    "yTrue and yPred must have the same shape."
+            );
+        }
+    }
     @Override
     public String name() {
         return "Mean Squared Error";

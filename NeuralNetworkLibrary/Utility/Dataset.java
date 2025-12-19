@@ -5,93 +5,65 @@ package NeuralNetworkLibrary.Utility;
  * Holds feature matrix X and label matrix Y.
  */
 public class Dataset {
-    private double[][] X;  // Features [samples x features]
-    private double[][] Y;  // Labels [samples x outputs]
 
-    /**
-     * Constructor for dataset.
-     * @param X Feature matrix [samples x features]
-     * @param Y Label matrix [samples x outputs]
-     */
-    public Dataset(double[][] X, double[][] Y) {
-        if (X.length != Y.length) {
+    private final Matrix X;  // [samples x features]
+    private final Matrix Y;  // [samples x outputs]
+
+    public Dataset(Matrix X, Matrix Y) {
+        if (X == null || Y == null) {
+            throw new IllegalArgumentException("X and Y cannot be null.");
+        }
+        if (X.getRows() != Y.getRows()) {
             throw new IllegalArgumentException(
                     "Number of samples in X and Y must match. Got X: " +
-                            X.length + ", Y: " + Y.length
+                            X.getRows() + ", Y: " + Y.getRows()
             );
         }
         this.X = X;
         this.Y = Y;
     }
 
-    /**
-     * Get the feature matrix.
-     * @return Feature matrix X
-     */
-    public double[][] getX() {
+    public Matrix getX() {
         return X;
     }
 
-    /**
-     * Get the label matrix.
-     * @return Label matrix Y
-     */
-    public double[][] getY() {
+    public Matrix getY() {
         return Y;
     }
 
-    /**
-     * Get the number of samples in the dataset.
-     * @return Number of samples
-     */
     public int size() {
-        return X.length;
+        return X.getRows();
     }
 
-    /**
-     * Get the number of features per sample.
-     * @return Number of features
-     */
     public int getFeatureCount() {
-        return X[0].length;
+        return X.getCols();
     }
 
-    /**
-     * Get the number of output labels per sample.
-     * @return Number of outputs
-     */
     public int getOutputCount() {
-        return Y[0].length;
+        return Y.getCols();
     }
 
     /**
-     * Get a subset of the dataset.
-     * @param startIdx Start index (inclusive)
-     * @param endIdx End index (exclusive)
-     * @return New Dataset containing the specified range
+     * Create a subset of the dataset.
      */
     public Dataset subset(int startIdx, int endIdx) {
-        if (startIdx < 0 || endIdx > X.length || startIdx >= endIdx) {
+        if (startIdx < 0 || endIdx > size() || startIdx >= endIdx) {
             throw new IllegalArgumentException(
                     "Invalid subset range: [" + startIdx + ", " + endIdx + ")"
             );
         }
 
-        int subsetSize = endIdx - startIdx;
-        double[][] subX = new double[subsetSize][];
-        double[][] subY = new double[subsetSize][];
+        double[][] subX = new double[endIdx - startIdx][X.getCols()];
+        double[][] subY = new double[endIdx - startIdx][Y.getCols()];
 
-        for (int i = 0; i < subsetSize; i++) {
-            subX[i] = X[startIdx + i];
-            subY[i] = Y[startIdx + i];
+        for (int i = startIdx; i < endIdx; i++) {
+            subX[i - startIdx] = X.getData()[i].clone();
+            subY[i - startIdx] = Y.getData()[i].clone();
         }
 
-        return new Dataset(subX, subY);
+        return new Dataset(new Matrix(subX), new Matrix(subY));
     }
 
-    /**
-     * Print dataset information.
-     */
     public void printInfo() {
         System.out.println("Dataset Info:");
         System.out.println("  Samples: " + size());

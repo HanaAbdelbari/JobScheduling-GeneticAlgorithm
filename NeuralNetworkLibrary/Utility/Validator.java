@@ -68,7 +68,7 @@ public final class Validator {
             throw new IllegalArgumentException("Dataset cannot be null.");
         }
 
-        if (dataset.getX().length != dataset.getY().length) {
+        if (dataset.getX().getRows() != dataset.getY().getRows()) {
             throw new ShapeMismatchException("Features and labels must have same number of samples.");
         }
     }
