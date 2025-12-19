@@ -43,14 +43,31 @@ public class Matrix {
     }
 
 
-// Matrix Addition
+// Matrix Addition with broadcasting support
     public Matrix add(Matrix other) {
+        // Handle broadcasting for bias addition (when other has 1 row)
+        if (this.rows != other.rows && other.rows == 1) {
+            if (this.cols != other.cols) {
+                throw new ShapeMismatchException("Matrix addition shape mismatch: cannot broadcast columns (" + 
+                    this.rows + "x" + this.cols + " + " + other.rows + "x" + other.cols + ")");
+            }
+            
+            Matrix result = new Matrix(this.rows, this.cols);
+            for (int i = 0; i < this.rows; i++) {
+                for (int j = 0; j < this.cols; j++) {
+                    result.data[i][j] = this.data[i][j] + other.data[0][j];
+                }
+            }
+            return result;
+        }
+        
+        // Standard matrix addition (shapes must match exactly)
         if (this.rows != other.rows || this.cols != other.cols) {
-            throw new ShapeMismatchException("Matrix addition shape mismatch.");
+            throw new ShapeMismatchException("Matrix addition shape mismatch: (" + 
+                this.rows + "x" + this.cols + " + " + other.rows + "x" + other.cols + ")");
         }
 
         Matrix result = new Matrix(rows, cols);
-
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 result.data[i][j] = this.data[i][j] + other.data[i][j];
