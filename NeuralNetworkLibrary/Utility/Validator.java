@@ -1,7 +1,7 @@
 package NeuralNetworkLibrary.Utility;
 
-import NueralNetworkLibrary.ExceptionHandlers.InvalidHyperParameterException;
-import NueralNetworkLibrary.ExceptionHandlers.ShapeMismatchException;
+import NeuralNetworkLibrary.ExceptionHandlers.InvalidHyperParameterException;
+import NeuralNetworkLibrary.ExceptionHandlers.ShapeMismatchException;
 
 public final class Validator {
 
@@ -68,10 +68,8 @@ public final class Validator {
             throw new IllegalArgumentException("Dataset cannot be null.");
         }
 
-        if (dataset.getFeatures().getRows() != dataset.getLabels().getRows()) {
-            throw new ShapeMismatchException(
-                    "Features and labels must have the same number of samples."
-            );
+        if (dataset.getX().length != dataset.getY().length) {
+            throw new ShapeMismatchException("Features and labels must have same number of samples.");
         }
     }
 

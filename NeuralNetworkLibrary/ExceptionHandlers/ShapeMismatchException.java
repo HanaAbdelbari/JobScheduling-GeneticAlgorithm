@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.ExceptionHandlers;
+package NeuralNetworkLibrary.ExceptionHandlers;
 
 // matrix dimensions are not match
 public class ShapeMismatchException extends RuntimeException {

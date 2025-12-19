@@ -1,6 +1,6 @@
-package NueralNetworkLibrary.Uility;
+package NeuralNetworkLibrary.Utility;
 
-import NueralNetworkLibrary.ExceptionHandlers.ShapeMismatchException;
+import NeuralNetworkLibrary.ExceptionHandlers.ShapeMismatchException;
 
 import java.util.function.Function;
 
@@ -96,7 +96,44 @@ public Matrix dot(Matrix other) {
     return result;
 }
 
-//Matrix Transpose
+    public Matrix multiply(Matrix other) {
+        if (rows != other.rows || cols != other.cols) {
+            throw new ShapeMismatchException("Element-wise multiplication shape mismatch.");
+        }
+
+        Matrix result = new Matrix(rows, cols);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result.data[i][j] = this.data[i][j] * other.data[i][j];
+            }
+        }
+        return result;
+    }
+
+    public Matrix scale(double scalar) {
+        Matrix result = new Matrix(rows, cols);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result.data[i][j] = this.data[i][j] * scalar;
+            }
+        }
+        return result;
+    }
+
+    public Matrix sumRows() {
+        Matrix result = new Matrix(1, cols);
+
+        for (int j = 0; j < cols; j++) {
+            double sum = 0;
+            for (int i = 0; i < rows; i++) {
+                sum += data[i][j];
+            }
+            result.data[0][j] = sum;
+        }
+        return result;
+    }
+
+    //Matrix Transpose
 public Matrix transpose() {
     Matrix result = new Matrix(cols, rows);
 

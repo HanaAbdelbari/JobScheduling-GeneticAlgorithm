@@ -1,6 +1,6 @@
 package NeuralNetworkLibrary.Utility;
 
-import NueralNetworkLibrary.ExceptionHandlers.InvalidHyperParameterException;
+import NeuralNetworkLibrary.ExceptionHandlers.InvalidHyperParameterException;
 
 public class Normalizer {
 

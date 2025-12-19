@@ -1,4 +1,4 @@
-package NueralNetworkLibrary.Initialization;
+package NeuralNetworkLibrary.Initialization;
 
 import java.util.Random;
 

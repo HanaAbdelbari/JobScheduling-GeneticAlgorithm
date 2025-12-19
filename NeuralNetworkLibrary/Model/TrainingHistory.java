@@ -124,7 +124,7 @@ public class TrainingHistory {
         sb.append(String.format("Training Summary (%d epochs):\n", lossHistory.size()));
         sb.append(String.format("  Initial Loss: %.6f\n", lossHistory.get(0)));
         sb.append(String.format("  Final Loss:   %.6f\n", getLatestLoss()));
-        
+
         if (trackAccuracy && !accuracyHistory.isEmpty()) {
             sb.append(String.format("  Initial Acc:  %.4f%%\n", accuracyHistory.get(0) * 100));
             sb.append(String.format("  Final Acc:    %.4f%%\n", getLatestAccuracy() * 100));
